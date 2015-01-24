@@ -34,7 +34,7 @@ public class AutoStringBuilder {
                 fieldValues.add(new String[]{field.getName(), str});
             }
         }
-        StringBuilder sb = new StringBuilder(cls.getSimpleName());
+        StringBuilder sb = new StringBuilder(getClassDisplayName(cls));
         sb.append("[");
         for (int i = 0; i < fieldValues.size(); i++) {
             String[] pair = fieldValues.get(i);
@@ -45,5 +45,14 @@ public class AutoStringBuilder {
         }
         sb.append("]");
         return sb.toString();
+    }
+
+    private static String getClassDisplayName(Class<?> cls) {
+        AutoStringConfig config = cls.getAnnotation(AutoStringConfig.class);
+        if (config != null) {
+            return config.displayName();
+        } else {
+            return cls.getSimpleName();
+        }
     }
 }
