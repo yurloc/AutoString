@@ -6,6 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
+// TODO maybe toString() should be "recommended" target (not to pollute class declaration), or allow both?
 @Target(ElementType.TYPE)
 public @interface AutoStringConfig {
 
