@@ -46,23 +46,26 @@ public class AutoStringBuilder {
                         && Modifier.isPublic(method.getModifiers())
                         && method.getParameterTypes().length == 0
                         && !method.getReturnType().equals(Void.class)) {
-                    // FIXME char at position 4 should be upper-case
-                    String propertyName = methodName.substring(3, 4).toLowerCase() + methodName.substring(4);
-                    String str = "null";
-                    Object value = null;
-                    try {
-                        value = method.invoke(this_);
-                    } catch (IllegalAccessException ex) {
-                        // cannot happen, method is public
-                        throw new IllegalStateException("Cannot invoke public method.", ex);
-                    } catch (InvocationTargetException ex) {
-                        // re-throw cause wrapped in unchecked exception
-                        throw new RuntimeException("Exception in invoking property '" + propertyName + "' getter.", ex.getCause());
+                    String first = methodName.substring(3, 4);
+                    String firstToLower = first.toLowerCase();
+                    if (!firstToLower.equals(first)) {
+                        String propertyName = firstToLower + methodName.substring(4);
+                        String str = "null";
+                        Object value = null;
+                        try {
+                            value = method.invoke(this_);
+                        } catch (IllegalAccessException ex) {
+                            // cannot happen, method is public
+                            throw new IllegalStateException("Cannot invoke public method.", ex);
+                        } catch (InvocationTargetException ex) {
+                            // re-throw cause wrapped in unchecked exception
+                            throw new RuntimeException("Exception in invoking property '" + propertyName + "' getter.", ex.getCause());
+                        }
+                        if (value != null) {
+                            str = value.toString();
+                        }
+                        fieldValues.add(new String[]{propertyName, str});
                     }
-                    if (value != null) {
-                        str = value.toString();
-                    }
-                    fieldValues.add(new String[]{propertyName, str});
                 }
             }
         }
