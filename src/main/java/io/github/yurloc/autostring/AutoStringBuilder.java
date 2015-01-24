@@ -6,8 +6,6 @@ import java.util.List;
 
 public class AutoStringBuilder {
 
-    public static final String ERROR = "?";
-
     public static String toString(Object this_) {
         if (this_ == null) {
             throw new IllegalArgumentException("Argument 'object' must not be null.");

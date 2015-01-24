@@ -35,8 +35,7 @@ public class FieldAccessibilityTest {
     public void testFieldAccessModifiers() {
         Accessibility dummy = new Accessibility();
         assertThat(dummy.toString())
-                .contains(pairs)
-                .doesNotContain(AutoStringBuilder.ERROR);
+                .contains(pairs);
         System.out.println(dummy);
     }
 
