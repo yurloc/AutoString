@@ -76,7 +76,7 @@ public class CornerCasesSpecificationTest {
 
         @Override
         public String toString() {
-            return AutoStringBuilder.build(this);
+            return AutoStringBuilder.toString(this);
         }
     }
 
@@ -84,7 +84,7 @@ public class CornerCasesSpecificationTest {
 
         @Override
         public String toString() {
-            return AutoStringBuilder.build(null);
+            return AutoStringBuilder.toString(null);
         }
     }
 
@@ -107,7 +107,7 @@ public class CornerCasesSpecificationTest {
 
         @Override
         public String toString() {
-            return AutoStringBuilder.build(this);
+            return AutoStringBuilder.toString(this);
         }
     }
 
@@ -130,7 +130,7 @@ public class CornerCasesSpecificationTest {
 
         @Override
         public String toString() {
-            return AutoStringBuilder.build(this);
+            return AutoStringBuilder.toString(this);
         }
     }
 
@@ -144,7 +144,7 @@ public class CornerCasesSpecificationTest {
 
         @Override
         public String toString() {
-            return AutoStringBuilder.build(this);
+            return AutoStringBuilder.toString(this);
         }
     }
 
@@ -156,7 +156,7 @@ public class CornerCasesSpecificationTest {
 
         @Override
         public String toString() {
-            return AutoStringBuilder.build(this);
+            return AutoStringBuilder.toString(this);
         }
     }
 
@@ -164,7 +164,7 @@ public class CornerCasesSpecificationTest {
 
         @Override
         public String toString() {
-            return AutoStringBuilder.build("hello");
+            return AutoStringBuilder.toString("hello");
         }
     }
 
@@ -172,7 +172,7 @@ public class CornerCasesSpecificationTest {
 
         @Override
         public String toString() {
-            return AutoStringBuilder.build(false);
+            return AutoStringBuilder.toString(false);
         }
     }
 }

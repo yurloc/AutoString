@@ -56,6 +56,6 @@ public class Accessibility {
 
     @Override
     public String toString() {
-        return AutoStringBuilder.build(this);
+        return AutoStringBuilder.toString(this);
     }
 }

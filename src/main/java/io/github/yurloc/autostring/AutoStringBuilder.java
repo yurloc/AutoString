@@ -10,7 +10,7 @@ public class AutoStringBuilder {
 
     public static final String ERROR = "?";
 
-    public static String build(Object object) {
+    public static String toString(Object object) {
         if (object == null) {
             throw new IllegalArgumentException("Argument 'object' must not be null.");
         }
