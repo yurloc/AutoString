@@ -35,14 +35,28 @@ public class CornerCasesSpecificationTest {
         new ThrowsError().toString();
     }
 
+    /**
+     * Not intended but should not fail.
+     */
     @Test
     public void emptyBracketsForClassWithNoAutoStringFields() {
         assertThat(new HasNoAutoStringFields().toString()).isEqualTo("HasNoAutoStringFields[]");
     }
 
+    /**
+     * Not intended but should not fail.
+     */
     @Test
     public void emptyBracketsForClassWithNoFields() {
         assertThat(new HasNoFields().toString()).isEqualTo("HasNoFields[]");
+    }
+
+    /**
+     * Not intended but should not fail.
+     */
+    @Test
+    public void shouldNotFailWhenArgumentIsString() {
+        assertThat(new PassesStringInsteadOfThis().toString()).isEqualTo("String[]");
     }
 
     private static class HasFieldWithNullValue {
@@ -133,6 +147,14 @@ public class CornerCasesSpecificationTest {
         @Override
         public String toString() {
             return AutoStringBuilder.build(this);
+        }
+    }
+
+    private static class PassesStringInsteadOfThis {
+
+        @Override
+        public String toString() {
+            return AutoStringBuilder.build("hello");
         }
     }
 }
