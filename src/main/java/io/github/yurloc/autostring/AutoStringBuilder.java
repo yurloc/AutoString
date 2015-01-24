@@ -3,18 +3,16 @@ package io.github.yurloc.autostring;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class AutoStringBuilder {
 
     public static final String ERROR = "?";
 
-    public static String toString(Object object) {
-        if (object == null) {
+    public static String toString(Object this_) {
+        if (this_ == null) {
             throw new IllegalArgumentException("Argument 'object' must not be null.");
         }
-        Class<? extends Object> cls = object.getClass();
+        Class<? extends Object> cls = this_.getClass();
         List<String[]> fieldValues = new ArrayList<String[]>();
         Field[] fields = cls.getDeclaredFields();
         for (Field field : fields) {
@@ -23,7 +21,7 @@ public class AutoStringBuilder {
                 Object val = null;
                 try {
                     field.setAccessible(true);
-                    val = field.get(object);
+                    val = field.get(this_);
                 } catch (IllegalAccessException ex) {
                     // shouldn't happen
                     throw new RuntimeException("Error getting value of field '" + field.getName() + "'.", ex);
