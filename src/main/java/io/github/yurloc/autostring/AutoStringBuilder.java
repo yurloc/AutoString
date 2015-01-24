@@ -45,7 +45,7 @@ public class AutoStringBuilder {
                         && methodName.length() > 3
                         && Modifier.isPublic(method.getModifiers())
                         && method.getParameterTypes().length == 0
-                        && !method.getReturnType().equals(Void.class)) {
+                        && !method.getReturnType().equals(Void.TYPE)) {
                     String first = methodName.substring(3, 4);
                     String firstToLower = first.toLowerCase();
                     if (!firstToLower.equals(first)) {
