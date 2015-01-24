@@ -8,7 +8,12 @@ public class BeanPropertiesSelectionTest {
 
     @Test
     public void testGetterDetection() {
-        assertThat(new HasNoValidGetter().toString()).isEqualTo("HasNoValidGetter[]");
+        assertThat(new HasNoValidGetter().toString()).isEqualTo("HasNoValidGetter[onlyValidProperty=value]");
+    }
+
+    @Test
+    public void testBooleanGetterDetection() {
+        assertThat(new HasNoValidBooleanGetter().toString()).isEqualTo("HasNoValidBooleanGetter[onlyValidProperty=true]");
     }
 
     @Test
@@ -23,6 +28,10 @@ public class BeanPropertiesSelectionTest {
 
     @AutoStringConfig(selectionStrategy = SelectionStrategy.BEAN_PROPERTIES)
     private static class HasNoValidGetter {
+
+        public String getOnlyValidProperty() {
+            return "value";
+        }
 
         // does not begin with "get"
         public String ggetValue() {
@@ -61,6 +70,58 @@ public class BeanPropertiesSelectionTest {
 
         // is void
         public void getVoid() {
+        }
+
+        @Override
+        public String toString() {
+            return AutoStringBuilder.toString(this);
+        }
+    }
+
+    @AutoStringConfig(selectionStrategy = SelectionStrategy.BEAN_PROPERTIES)
+    private static class HasNoValidBooleanGetter {
+
+        public boolean isOnlyValidProperty() {
+            return true;
+        }
+
+        // does not begin with "is"
+        public boolean iisDone() {
+            return true;
+        }
+
+        // wrong capitalization
+        public boolean isready() {
+            return true;
+        }
+
+        // missing property name
+        public boolean is() {
+            return true;
+        }
+
+        // not public: protected
+        protected boolean getProtected() {
+            return true;
+        }
+
+        // not public: package protected
+        boolean getPackageProtected() {
+            return true;
+        }
+
+        // not public: private
+        private boolean getPrivate() {
+            return true;
+        }
+
+        // has parameters
+        public boolean isWithIntParameter(int index) {
+            return true;
+        }
+
+        // is void
+        public void isVoid() {
         }
 
         @Override

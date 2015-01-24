@@ -40,16 +40,18 @@ public class AutoStringBuilder {
         if (config != null && config.selectionStrategy() == SelectionStrategy.BEAN_PROPERTIES) {
             for (Method method : cls.getDeclaredMethods()) {
                 String methodName = method.getName();
-                // FIXME detect boolean is* getter
-                if (methodName.startsWith("get")
-                        && methodName.length() > 3
-                        && Modifier.isPublic(method.getModifiers())
-                        && method.getParameterTypes().length == 0
-                        && !method.getReturnType().equals(Void.TYPE)) {
-                    String first = methodName.substring(3, 4);
-                    String firstToLower = first.toLowerCase();
-                    if (!firstToLower.equals(first)) {
-                        String propertyName = firstToLower + methodName.substring(4);
+                // must be public void and non-parametric
+                if (Modifier.isPublic(method.getModifiers())
+                        && !method.getReturnType().equals(Void.TYPE)
+                        && method.getParameterTypes().length == 0) {
+                    // check naming convention
+                    String propertyName = null;
+                    if (methodName.startsWith("is")) {
+                        propertyName = getPropertyName(methodName, 2);
+                    } else if (methodName.startsWith("get")) {
+                        propertyName = getPropertyName(methodName, 3);
+                    }
+                    if (propertyName != null) {
                         String str = "null";
                         Object value = null;
                         try {
@@ -97,5 +99,17 @@ public class AutoStringBuilder {
         } else {
             return cls.getSimpleName();
         }
+    }
+
+    private static String getPropertyName(String methodName, int prefixLength) {
+        if (methodName.length() <= prefixLength) {
+            return null;
+        }
+        String first = methodName.substring(prefixLength, prefixLength + 1);
+        String firstToLower = first.toLowerCase();
+        if (firstToLower.equals(first)) {
+            return null;
+        }
+        return firstToLower + methodName.substring(prefixLength + 1);
     }
 }
