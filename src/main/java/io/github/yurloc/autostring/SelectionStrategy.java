@@ -13,9 +13,6 @@ public enum SelectionStrategy {
      * matching getter does not exist (write-only property), property name will be derived from setter and value will be
      * extracted from a field with that name. If no such field exists, {@link IllegalStateException} will be thrown
      * (TODO be less pedantic and just ignore the property and log a warning).
-     * <p>
-     * TODO decide if annotated non-property fields can be added.
-     * </p>
      */
     BEAN_PROPERTIES,
     /**

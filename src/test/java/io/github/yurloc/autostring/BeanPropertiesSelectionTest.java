@@ -17,8 +17,8 @@ public class BeanPropertiesSelectionTest {
     }
 
     @Test
-    public void testGetter() {
-        assertThat(new HasGetter().toString()).isEqualTo("HasGetter[name=x]");
+    public void testFieldsAreIgnoredUnlessAnnotated() {
+        assertThat(new HasGetterAndFields().toString()).isEqualTo("HasGetterAndFields[extra=value,name=x]");
     }
 
     @Test
@@ -131,9 +131,13 @@ public class BeanPropertiesSelectionTest {
     }
 
     @AutoStringConfig(selectionStrategy = SelectionStrategy.BEAN_PROPERTIES)
-    private static class HasGetter {
+    private static class HasGetterAndFields {
 
-        private int internalValue = 111;
+        private int someField = 111;
+        private String name = "should be ignored";
+        public String pub = "public field";
+        @AutoString
+        private String extra = "value";
 
         public String getName() {
             return "x";
