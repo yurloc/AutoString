@@ -24,21 +24,13 @@ public class AutoStringBuilder {
                 try {
                     field.setAccessible(true);
                     val = field.get(object);
-                } catch (IllegalArgumentException ex) {
-                    // if 'o' is not instance of field's class - can't happen
-                    Logger.getLogger(AutoStringBuilder.class.getName()).log(Level.SEVERE, null, ex);
-                    str = ERROR;
                 } catch (IllegalAccessException ex) {
-                    Logger.getLogger(AutoStringBuilder.class.getName()).log(Level.SEVERE, null, ex);
-                    str = ERROR;
+                    // shouldn't happen
+                    throw new RuntimeException("Error getting value of field '" + field.getName() + "'.", ex);
                 }
                 if (val != null) {
-                    try {
-                        str = val.toString();
-                    } catch (Throwable t) {
-                        Logger.getLogger(AutoStringBuilder.class.getName()).log(Level.SEVERE, null, t);
-                        str = ERROR;
-                    }
+                    // may throw a runtime exception, don't touch it
+                    str = val.toString();
                 }
 
                 fieldValues.add(new String[]{field.getName(), str});

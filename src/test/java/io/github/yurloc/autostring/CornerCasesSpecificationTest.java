@@ -25,6 +25,11 @@ public class CornerCasesSpecificationTest {
         new PassesNullArgument().toString();
     }
 
+    @Test(expected = TestException.class)
+    public void shouldNotSwallowRuntimeExceptions() {
+        new ThrowsRuntimeException().toString();
+    }
+
     private static class HasFieldWithNullValue {
 
         @AutoString
@@ -41,6 +46,29 @@ public class CornerCasesSpecificationTest {
         @Override
         public String toString() {
             return AutoStringBuilder.build(null);
+        }
+    }
+
+    private static class TestException extends RuntimeException {
+
+        private static final long serialVersionUID = 1L;
+
+    }
+
+    private static class ThrowsRuntimeException {
+
+        @AutoString
+        private Object field = new Object() {
+
+            @Override
+            public String toString() {
+                throw new TestException();
+            }
+        };
+
+        @Override
+        public String toString() {
+            return AutoStringBuilder.build(this);
         }
     }
 }
