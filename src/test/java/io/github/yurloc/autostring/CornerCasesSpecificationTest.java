@@ -35,6 +35,16 @@ public class CornerCasesSpecificationTest {
         new ThrowsError().toString();
     }
 
+    @Test
+    public void emptyBracketsForClassWithNoAutoStringFields() {
+        assertThat(new HasNoAutoStringFields().toString()).isEqualTo("HasNoAutoStringFields[]");
+    }
+
+    @Test
+    public void emptyBracketsForClassWithNoFields() {
+        assertThat(new HasNoFields().toString()).isEqualTo("HasNoFields[]");
+    }
+
     private static class HasFieldWithNullValue {
 
         @AutoString
@@ -93,6 +103,32 @@ public class CornerCasesSpecificationTest {
                 throw new TestError();
             }
         };
+
+        @Override
+        public String toString() {
+            return AutoStringBuilder.build(this);
+        }
+    }
+
+    private static class HasNoAutoStringFields {
+
+        private final String value = "/";
+
+        public String getValue() {
+            return value;
+        }
+
+        @Override
+        public String toString() {
+            return AutoStringBuilder.build(this);
+        }
+    }
+
+    private static class HasNoFields {
+
+        public void butSomeMethod() {
+            // that does nothing
+        }
 
         @Override
         public String toString() {
