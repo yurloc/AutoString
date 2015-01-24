@@ -2,6 +2,8 @@ package io.github.yurloc.autostring;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,5 +38,23 @@ public class FieldAccessibilityTest {
                 .contains(pairs)
                 .doesNotContain("?");
         System.out.println(dummy);
+    }
+
+    /**
+     * Demonstrates that field accessibility is not affected by calling
+     * {@link AutoStringBuilder#build(java.lang.Object)}.
+     * More info on <a href="http://stackoverflow.com/a/10638983/1691152">Stack Overflow</a>.
+     *
+     * @throws NoSuchFieldException shouldn't happen
+     * @throws IllegalArgumentException shouldn't happen
+     * @throws IllegalAccessException this one is expected
+     */
+    @Test(expected = IllegalAccessException.class)
+    public void testAccesibilityAfterToString() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+        Accessibility dummy = new Accessibility();
+        dummy.toString();
+        Field nPvt = dummy.getClass().getDeclaredField("nPvt");
+        assertThat(Modifier.isPrivate(nPvt.getModifiers()));
+        nPvt.get(dummy);
     }
 }
