@@ -31,7 +31,7 @@ public class AutoStringBuilder {
                     str = val.toString();
                 }
 
-                fieldValues.add(new String[]{field.getName(), str});
+                fieldValues.add(new String[]{getFieldDisplayName(field), str});
             }
         }
         StringBuilder sb = new StringBuilder(getClassDisplayName(cls));
@@ -45,6 +45,11 @@ public class AutoStringBuilder {
         }
         sb.append("]");
         return sb.toString();
+    }
+
+    private static String getFieldDisplayName(Field field) {
+        String displayName = field.getAnnotation(AutoString.class).displayName();
+        return displayName.equals("__default") ? field.getName() : displayName;
     }
 
     private static String getClassDisplayName(Class<?> cls) {
