@@ -1,6 +1,6 @@
 package io.github.yurloc.autostring;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
 
@@ -14,8 +14,8 @@ public class AutoStringBuilderTest {
     protected Object objField = null;
 
     @Test
-    public void testSomeMethod() {
-        assertEquals("AutoStringBuilderTest[intField=123,strField=hello,objField=null]", this.toString());
+    public void testSimpleUsage() {
+        assertThat(this.toString()).isEqualTo("AutoStringBuilderTest[intField=123,strField=hello,objField=null]");
     }
 
     @Override
