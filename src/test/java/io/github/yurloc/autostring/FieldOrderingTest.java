@@ -12,7 +12,7 @@ public class FieldOrderingTest {
      */
     @Test
     public void shouldKeepOrderOfDeclaration() {
-        assertThat(new Dummy().toString()).isEqualTo("Dummy[zzz=zzz,a=1,b=-1]");
+        assertThat(new Dummy().toString()).isEqualTo("Dummy[zzz=zzz,min=-1,max=1,d=null]");
     }
 
     private static class Dummy {
@@ -21,11 +21,14 @@ public class FieldOrderingTest {
         private String zzz = "zzz";
 
         @AutoString
-        private final int a, b;
+        private final int min, max;
+
+        @AutoString
+        private final Dummy d = null;
 
         public Dummy() {
-            this.a = 1;
-            this.b = -1;
+            this.min = -1;
+            this.max = 1;
         }
 
         @Override
