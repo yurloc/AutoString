@@ -56,7 +56,17 @@ public class CornerCasesSpecificationTest {
      */
     @Test
     public void shouldNotFailWhenArgumentIsString() {
+        // TODO decide if String value should be displayed
         assertThat(new PassesStringInsteadOfThis().toString()).isEqualTo("String[]");
+    }
+
+    /**
+     * Not intended but should not fail.
+     */
+    @Test
+    public void shouldNotFailWhenArgumentIsPrimitiveType() {
+        // TODO decide if primitive value should be displayed
+        assertThat(new PassesPrimitiveBooleanInsteadOfThis().toString()).isEqualTo("Boolean[]");
     }
 
     private static class HasFieldWithNullValue {
@@ -155,6 +165,14 @@ public class CornerCasesSpecificationTest {
         @Override
         public String toString() {
             return AutoStringBuilder.build("hello");
+        }
+    }
+
+    private static class PassesPrimitiveBooleanInsteadOfThis {
+
+        @Override
+        public String toString() {
+            return AutoStringBuilder.build(false);
         }
     }
 }
