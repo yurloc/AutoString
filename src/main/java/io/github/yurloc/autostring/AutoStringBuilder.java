@@ -10,11 +10,11 @@ public class AutoStringBuilder {
 
     public static final String ERROR = "?";
 
-    public static String build(Object o) {
-        if (o == null) {
-            return "null";
+    public static String build(Object object) {
+        if (object == null) {
+            throw new IllegalArgumentException("Argument 'object' must not be null.");
         }
-        Class<? extends Object> cls = o.getClass();
+        Class<? extends Object> cls = object.getClass();
         List<String[]> fieldValues = new ArrayList<String[]>();
         Field[] fields = cls.getDeclaredFields();
         for (Field field : fields) {
@@ -23,7 +23,7 @@ public class AutoStringBuilder {
                 Object val = null;
                 try {
                     field.setAccessible(true);
-                    val = field.get(o);
+                    val = field.get(object);
                 } catch (IllegalArgumentException ex) {
                     // if 'o' is not instance of field's class - can't happen
                     Logger.getLogger(AutoStringBuilder.class.getName()).log(Level.SEVERE, null, ex);
