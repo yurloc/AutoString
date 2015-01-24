@@ -24,8 +24,27 @@ public class BeanPropertiesSelectionTest {
     }
 
     @Test
-    public void testGetterThrowingException() {
-        // TODO implement test
+    public void testGetterThrowingUncheckedException() {
+        HasGetterThrowingUncheckedException dummy = new HasGetterThrowingUncheckedException();
+        try {
+            dummy.toString();
+        } catch (RuntimeException wrapper) {
+            assertThat(wrapper.getMessage().contains("throwsUncheckedException"));
+            assertThat(wrapper).hasCauseExactlyInstanceOf(RuntimeException.class);
+            assertThat(wrapper.getCause()).hasMessage("message");
+        }
+    }
+
+    @Test
+    public void testGetterThrowingCheckedException() {
+        HasGetterThrowingCheckedException dummy = new HasGetterThrowingCheckedException();
+        try {
+            dummy.toString();
+        } catch (RuntimeException wrapper) {
+            assertThat(wrapper.getMessage().contains("throwsCheckedException"));
+            assertThat(wrapper).hasCauseExactlyInstanceOf(Throwable.class);
+            assertThat(wrapper.getCause()).hasMessage("message");
+        }
     }
 
     @AutoStringConfig(selectionStrategy = SelectionStrategy.BEAN_PROPERTIES)
@@ -143,6 +162,32 @@ public class BeanPropertiesSelectionTest {
 
         public String getName() {
             return "x";
+        }
+
+        @Override
+        public String toString() {
+            return AutoStringBuilder.toString(this);
+        }
+    }
+
+    @AutoStringConfig(selectionStrategy = SelectionStrategy.BEAN_PROPERTIES)
+    private static class HasGetterThrowingUncheckedException {
+
+        public String getThrowsUncheckedException() {
+            throw new RuntimeException("message");
+        }
+
+        @Override
+        public String toString() {
+            return AutoStringBuilder.toString(this);
+        }
+    }
+
+    @AutoStringConfig(selectionStrategy = SelectionStrategy.BEAN_PROPERTIES)
+    private static class HasGetterThrowingCheckedException {
+
+        public String getThrowsCheckedException() throws Throwable {
+            throw new Throwable("message");
         }
 
         @Override
