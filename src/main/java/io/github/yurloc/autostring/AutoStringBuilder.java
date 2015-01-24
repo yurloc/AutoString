@@ -13,10 +13,12 @@ public class AutoStringBuilder {
             throw new IllegalArgumentException("Argument 'object' must not be null.");
         }
         Class<? extends Object> cls = this_.getClass();
+        AutoStringConfig config = cls.getAnnotation(AutoStringConfig.class);
         List<String[]> fieldValues = new ArrayList<String[]>();
         Field[] fields = cls.getDeclaredFields();
         for (Field field : fields) {
-            if (field.getAnnotation(AutoString.class) != null) {
+            if ((config != null && config.selectionStrategy() == SelectionStrategy.ALL)
+                    || field.getAnnotation(AutoString.class) != null) {
                 String str = "null";
                 Object val = null;
                 try {
@@ -48,13 +50,16 @@ public class AutoStringBuilder {
     }
 
     private static String getFieldDisplayName(Field field) {
-        String displayName = field.getAnnotation(AutoString.class).displayName();
-        return displayName.equals("__default") ? field.getName() : displayName;
+        AutoString annotation = field.getAnnotation(AutoString.class);
+        if (annotation == null || annotation.displayName().equals("__default")) {
+            return field.getName();
+        }
+        return annotation.displayName();
     }
 
     private static String getClassDisplayName(Class<?> cls) {
         AutoStringConfig config = cls.getAnnotation(AutoStringConfig.class);
-        if (config != null) {
+        if (config != null && !config.displayName().equals("__default")) {
             return config.displayName();
         } else {
             return cls.getSimpleName();

@@ -11,6 +11,11 @@ public class AutoStringConfigTest {
         assertThat(new Dummy().toString()).isEqualTo("!!! SomethingElse: [field=value]");
     }
 
+    @Test
+    public void testSelectAll() {
+        assertThat(new SelectAllFields().toString()).isEqualTo("SelectAllFields[pvt=pvt,pkg=pkg,ptd=ptd,pub=pub]");
+    }
+
     @AutoStringConfig(displayName = "!!! SomethingElse: ")
     private static class Dummy {
 
@@ -22,5 +27,19 @@ public class AutoStringConfigTest {
             return AutoStringBuilder.toString(this);
         }
 
+    }
+
+    @AutoStringConfig(selectionStrategy = SelectionStrategy.ALL)
+    private static class SelectAllFields {
+
+        private String pvt = "pvt";
+        String pkg = "pkg";
+        protected String ptd = "ptd";
+        public String pub = "pub";
+
+        @Override
+        public String toString() {
+            return AutoStringBuilder.toString(this);
+        }
     }
 }

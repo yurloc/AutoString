@@ -9,5 +9,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface AutoStringConfig {
 
-    String displayName();
+    String displayName() default "__default";
+
+    SelectionStrategy selectionStrategy() default SelectionStrategy.ANNOTATED;
 }
