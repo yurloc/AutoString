@@ -1,13 +1,14 @@
 package io.github.yurloc.autostring;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class AutoStringBuilder {
+
+    public static final String ERROR = "?";
 
     public static String build(Object o) {
         if (o == null) {
@@ -26,17 +27,17 @@ public class AutoStringBuilder {
                 } catch (IllegalArgumentException ex) {
                     // if 'o' is not instance of field's class - can't happen
                     Logger.getLogger(AutoStringBuilder.class.getName()).log(Level.SEVERE, null, ex);
-                    str = "?";
+                    str = ERROR;
                 } catch (IllegalAccessException ex) {
                     Logger.getLogger(AutoStringBuilder.class.getName()).log(Level.SEVERE, null, ex);
-                    str = "?";
+                    str = ERROR;
                 }
                 if (val != null) {
                     try {
                         str = val.toString();
                     } catch (Throwable t) {
                         Logger.getLogger(AutoStringBuilder.class.getName()).log(Level.SEVERE, null, t);
-                        str = "?";
+                        str = ERROR;
                     }
                 }
 

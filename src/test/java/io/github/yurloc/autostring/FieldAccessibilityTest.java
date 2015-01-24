@@ -36,7 +36,7 @@ public class FieldAccessibilityTest {
         Accessibility dummy = new Accessibility();
         assertThat(dummy.toString())
                 .contains(pairs)
-                .doesNotContain("?");
+                .doesNotContain(AutoStringBuilder.ERROR);
         System.out.println(dummy);
     }
 
