@@ -8,12 +8,14 @@ public class BeanPropertiesSelectionTest {
 
     @Test
     public void testGetterDetection() {
-        assertThat(new HasNoValidGetter().toString()).isEqualTo("HasNoValidGetter[onlyValidProperty=value]");
+        assertThat(new HasInvalidGettersButOne().toString())
+                .isEqualTo("HasInvalidGettersButOne[onlyValidProperty=value]");
     }
 
     @Test
     public void testBooleanGetterDetection() {
-        assertThat(new HasNoValidBooleanGetter().toString()).isEqualTo("HasNoValidBooleanGetter[onlyValidProperty=true]");
+        assertThat(new HasInvalidBooleanGettersButOne().toString())
+                .isEqualTo("HasInvalidBooleanGettersButOne[onlyValidProperty=true]");
     }
 
     @Test
@@ -27,7 +29,7 @@ public class BeanPropertiesSelectionTest {
     }
 
     @AutoStringConfig(selectionStrategy = SelectionStrategy.BEAN_PROPERTIES)
-    private static class HasNoValidGetter {
+    private static class HasInvalidGettersButOne {
 
         public String getOnlyValidProperty() {
             return "value";
@@ -79,7 +81,7 @@ public class BeanPropertiesSelectionTest {
     }
 
     @AutoStringConfig(selectionStrategy = SelectionStrategy.BEAN_PROPERTIES)
-    private static class HasNoValidBooleanGetter {
+    private static class HasInvalidBooleanGettersButOne {
 
         public boolean isOnlyValidProperty() {
             return true;
